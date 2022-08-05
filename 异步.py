@@ -1,23 +1,12 @@
-
 import asyncio
-import requests
-async def request():
-    url = 'https://www.baidu.com'
-    stats = requests.get(url)
-    return stats
-def callback(task):
-    print("Status:",task.result())
 
-coroutine = request()
+async def say_after(delay,what):
+    await asyncio.sleep(delay)
+    print(what)
 
-task= asyncio.ensure_future(coroutine)
+async def main():
+    task1 = asyncio.create_task(say_after(3,"等待3s"))
+    task2 = asyncio.create_task(say_after(1,"等待2s"))
+    await task2
 
-task.add_done_callback(callback)
-
-print("Task:",task)
-
-loop = asyncio.get_event_loop()
-
-loop.run_until_complete(task)
-
-print("Task:",task )
+asyncio.run(main())
